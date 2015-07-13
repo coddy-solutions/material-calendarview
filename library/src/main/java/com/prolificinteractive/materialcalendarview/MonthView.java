@@ -2,7 +2,14 @@ package com.prolificinteractive.materialcalendarview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.prolificinteractive.materialcalendarview.format.DayFormatter;
@@ -243,4 +250,26 @@ class MonthView extends LinearLayout implements View.OnClickListener {
             }
         }
     }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        View v = (View) getParent();
+        int pW = v.getWidth();
+        int pH = v.getHeight();
+        int cellHeight = pH / DEFAULT_MONTH_TILE_HEIGHT;
+        int cellWidth = pW / DEFAULT_DAYS_IN_WEEK;
+        int cellMargin = (cellWidth - cellHeight) / 2;
+
+        for (int i = 1; i < getChildCount(); i++) {
+            ViewGroup row = (ViewGroup) getChildAt(i);
+            for (int j = 0; j < row.getChildCount(); j++) {
+                View childAt = row.getChildAt(j);
+                LinearLayout.LayoutParams params = (LayoutParams) childAt.getLayoutParams();
+                params.setMargins(cellMargin, 0, cellMargin, 0);
+            }
+        }
+        super.onLayout(changed, l, t, r, b);
+    }
+
 }

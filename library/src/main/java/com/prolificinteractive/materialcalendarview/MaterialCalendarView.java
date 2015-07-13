@@ -59,6 +59,7 @@ public class MaterialCalendarView extends FrameLayout {
      *
      */
     public static final int DEFAULT_TILE_SIZE_DP = 44;
+    public static final int DEFAULT_TILE_HEIGHT_DP = 34;
 
     private static final TitleFormatter DEFAULT_TITLE_FORMATTER = new DateFormatTitleFormatter();
     private final TitleChanger titleChanger;
@@ -245,13 +246,19 @@ public class MaterialCalendarView extends FrameLayout {
                 getResources().getDisplayMetrics()
         );
 
+        int tileHeight = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                DEFAULT_TILE_HEIGHT_DP,
+                getResources().getDisplayMetrics()
+        );
+
         root = new LinearLayout(getContext());
         root.setOrientation(LinearLayout.VERTICAL);
         root.setClipChildren(false);
         root.setClipToPadding(false);
         LayoutParams p = new LayoutParams(
-                tileSize * MonthView.DEFAULT_DAYS_IN_WEEK,
-                tileSize * (MonthView.DEFAULT_MONTH_TILE_HEIGHT + 1)
+                LayoutParams.MATCH_PARENT,
+                tileHeight * (MonthView.DEFAULT_MONTH_TILE_HEIGHT)
         );
         p.gravity = Gravity.CENTER;
         addView(root, p);
